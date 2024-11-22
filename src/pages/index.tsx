@@ -2,9 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Button, Container } from "reactstrap";
-// import Header from "../components/Header";
+import Header from "../components/Header";
 import Image from "next/image";
-// import Footer from "@/components/Footer";
+import Footer from "@/components/Footer";
 
 const Home: NextPage = () => {
   return (
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <Header /> */}
+      <Header />
 
       <main>
         <Container className="text-center mw-100 p-0">
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
         </Container>
       </main>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };
