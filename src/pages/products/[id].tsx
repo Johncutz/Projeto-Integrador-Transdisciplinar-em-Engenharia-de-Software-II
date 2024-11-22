@@ -9,12 +9,12 @@ import { ProductType } from "../../services/products";
 
 const Product = () => {
   const router = useRouter();
-  const { id } = router.query; // Obtém o ID da rota
+  const { id } = router.query;
   const [product, setProduct] = useState<ProductType | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return; // Aguarda o ID ser carregado
+    if (!id) return;
 
     const fetchProduct = async () => {
       try {

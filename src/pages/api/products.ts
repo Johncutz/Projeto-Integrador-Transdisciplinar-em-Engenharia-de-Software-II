@@ -1,30 +1,7 @@
-// import { NextApiRequest, NextApiResponse } from "next";
-// import products from '../../../database.json'
-
-// export default function handler(req: NextApiRequest, res: NextApiResponse) {
-//     res.status(200).json(products)
-// }
-
-// pages/api/produtos.js
-
-// import { NextApiRequest, NextApiResponse } from "next";
-// import pool from '../../utils/db';
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   try {
-//     const result = await pool.query('SELECT * FROM cupcakes');
-//     res.status(200).json(result.rows);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Erro ao buscar cupcakes' });
-//   }
-// }
-
 import { NextApiRequest, NextApiResponse } from "next";
 import { database } from "../../utils/firebase";
 import { ref, get, child } from "firebase/database";
 
-// Função para buscar os dados de cupcakes
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
