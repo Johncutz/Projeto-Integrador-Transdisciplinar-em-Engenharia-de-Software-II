@@ -1,0 +1,58 @@
+// [
+//   {
+//     "id": 1,
+//     "name": "Cupcake de Chocolate",
+//     "description": "Delicioso cupcake de chocolate com cobertura de ganache e granulado. Feito com ingredientes frescos para uma explos\u00e3o de sabor em cada mordida.",
+//     "price": 8.5,
+//     "imageUrl": "/assets/Cupcake-de-chocolate.jpg"
+//   },
+//   {
+//     "id": 2,
+//     "name": "Cupcake de Morango",
+//     "description": "Cupcake de morango com massa leve e cobertura de creme de morango natural, decorado com peda\u00e7os de morango fresco.",
+//     "price": 9.0,
+//     "imageUrl": "/assets/Cupcake-de-morango.jpg"
+//   },
+//   {
+//     "id": 3,
+//     "name": "Cupcake de Baunilha",
+//     "description": "Cl\u00e1ssico cupcake de baunilha com cobertura de buttercream suave e confeitos coloridos, perfeito para qualquer ocasi\u00e3o.",
+//     "price": 7.5,
+//     "imageUrl": "/assets/Cupcake-de-baunilha.jpg"
+//   },
+//   {
+//     "id": 4,
+//     "name": "Cupcake Red Velvet",
+//     "description": "Elegante cupcake Red Velvet com um toque de cacau, coberto com cream cheese frosting e decorado com a\u00e7\u00facar vermelho.",
+//     "price": 10.0,
+//     "imageUrl": "/assets/Cupcake-de-redvelvet.jpg"
+//   },
+//   {
+//     "id": 5,
+//     "name": "Cupcake de Lim\u00e3o Siciliano",
+//     "description": "Cupcake refrescante de lim\u00e3o siciliano com cobertura de merengue e raspas de lim\u00e3o, trazendo um toque c\u00edtrico irresist\u00edvel.",
+//     "price": 9.5,
+//     "imageUrl": "/assets/Cupcake-de-limao-siciliano.jpg"
+//   },
+//   {
+//     "id": 6,
+//     "name": "Cupcake de Caf\u00e9",
+//     "description": "Cupcake intenso de caf\u00e9 com cobertura de chantilly e uma pitada de cacau em p\u00f3. Ideal para os amantes de caf\u00e9.",
+//     "price": 9.0,
+//     "imageUrl": "/assets/Cupcake-de-cafe.jpg"
+//   },
+//   {
+//     "id": 7,
+//     "name": "Cupcake de Coco",
+//     "description": "Cupcake de coco macio com cobertura de creme de coco e flocos de coco torrado para dar um toque especial.",
+//     "price": 8.75,
+//     "imageUrl": "/assets/Cupcake-de-coco.jpg"
+//   },
+//   {
+//     "id": 8,
+//     "name": "Cupcake de Amora",
+//     "description": "Cupcake com massa de baunilha e recheio de amora, coberto com creme suave de amora e decorado com frutas frescas.",
+//     "price": 9.5,
+//     "imageUrl": "/assets/Cupcake-de-amora.jpg"
+//   }
+// ]
