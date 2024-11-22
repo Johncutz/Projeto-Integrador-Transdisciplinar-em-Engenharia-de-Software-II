@@ -6,6 +6,7 @@ import { ReactElement } from "react";
 import { act } from "react"; // importe o act diretamente do React
 
 interface CustomRenderOptions extends RenderOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   session?: any;
 }
 
@@ -14,8 +15,9 @@ const customRender = (
   { session, ...options }: CustomRenderOptions = {}
 ) => {
   let result;
-  
-  act(() => { // envolve a renderização em React.act
+
+  act(() => {
+    // envolve a renderização em React.act
     result = render(
       <SessionProvider session={session}>
         <CartContextProvider>{ui}</CartContextProvider>
@@ -23,7 +25,7 @@ const customRender = (
       options
     );
   });
-  
+
   return result;
 };
 

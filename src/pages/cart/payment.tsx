@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Form,
@@ -110,7 +110,7 @@ const PaymentOptions: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     validateForm();
   }, [creditCard, debitCard, selectedOption]);
 
