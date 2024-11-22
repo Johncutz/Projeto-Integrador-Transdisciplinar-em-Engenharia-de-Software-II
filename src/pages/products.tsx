@@ -1,22 +1,30 @@
-import type { GetStaticProps, NextPage } from "next";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import { Container } from "reactstrap";
 import ProductsList from "../components/ProductsList";
 import { fetchProducts, ProductType } from "../services/products";
-import { ReactNode } from "react";
 import Footer from "@/components/Footer";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const products = await fetchProducts();
+const Products = () => {
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  return { props: { products } };
-};
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const Products: NextPage = (props: {
-  children?: ReactNode;
-  products?: ProductType[];
-}) => {
+    loadProducts();
+  }, []);
+
   return (
     <>
       <Head>
@@ -24,17 +32,17 @@ const Products: NextPage = (props: {
         <meta name="description" content="Conheça todos os nossos produtos" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Header />
-
       <main>
         <Container className="mb-5">
           <h1 className="my-5">Nossos Produtos</h1>
-
-          {<ProductsList products={props.products!} />}
+          {loading ? (
+            <p>Carregando...</p>
+          ) : (
+            <ProductsList products={products} />
+          )}
         </Container>
       </main>
-
       <Footer />
     </>
   );
