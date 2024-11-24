@@ -263,3 +263,17 @@ th {
 .text-home {
   margin: 0 30px 20px;
 }
+
+.btn-login-cart {
+  background-color: #000;
+  color: #fff;
+  border-radius: 0;
+  padding: 10px 20px;
+  border: 1px solid #000;
+
+  &:hover {
+    background-color: transparent;
+    border: 1px solid #000;
+    color: #000;
+  }
+}

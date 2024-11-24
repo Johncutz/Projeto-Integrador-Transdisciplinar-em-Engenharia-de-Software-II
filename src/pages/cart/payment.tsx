@@ -22,6 +22,7 @@ import {
   formatCVV,
 } from "@/utils/format";
 import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
 
 const PaymentOptions: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(
@@ -29,6 +30,7 @@ const PaymentOptions: React.FC = () => {
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { finalizeOrder, cart } = useCart();
+  const { data: session } = useSession();
 
   const [creditCard, setCreditCard] = useState({
     number: "",
@@ -124,192 +126,230 @@ const PaymentOptions: React.FC = () => {
 
       <HeaderCheckout />
 
-      <Container>
-        {cart.length > 0 ? (
-          <>
-            <h2>Opções de Pagamento</h2>
+      <>
+        {session ? (
+          <Container>
+            {cart.length > 0 ? (
+              <>
+                <h2>Opções de Pagamento</h2>
 
-            <div className="d-flex">
-              <div className="d-flex flex-column wid-20">
-                <Button
-                  onClick={() => handleOptionChange("creditCard")}
-                  className="mb-2 payment-method"
-                >
-                  Cartão de Crédito
-                </Button>
-                <Button
-                  onClick={() => handleOptionChange("debitCard")}
-                  className="mb-2 payment-method"
-                >
-                  Cartão de Débito
-                </Button>
-                <Button
-                  onClick={() => handleOptionChange("pix")}
-                  className="mb-2 payment-method"
-                >
-                  PIX
-                </Button>
-              </div>
-
-              <div className="wid-50 ms-3">
-                {selectedOption === "creditCard" && (
-                  <Form>
-                    <h4>Pagamento com Cartão de Crédito</h4>
-                    <FormGroup>
-                      <Label for="creditCardNumber">Número do Cartão:</Label>
-                      <Input
-                        type="text"
-                        id="creditCardNumber"
-                        value={creditCard.number}
-                        onChange={(e) =>
-                          handleInputChange("number", e.target.value, "credit")
-                        }
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="creditCardName">Nome no Cartão:</Label>
-                      <Input
-                        type="text"
-                        id="creditCardName"
-                        value={creditCard.name}
-                        onChange={(e) =>
-                          handleInputChange("name", e.target.value, "credit")
-                        }
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="creditCardExpiry">Validade:</Label>
-                      <Input
-                        type="text"
-                        id="creditCardExpiry"
-                        value={creditCard.expiry}
-                        onChange={(e) =>
-                          handleInputChange("expiry", e.target.value, "credit")
-                        }
-                        required
-                        placeholder="MM/AA"
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="creditCardCVV">CVV:</Label>
-                      <Input
-                        type="text"
-                        id="creditCardCVV"
-                        value={creditCard.cvv}
-                        onChange={(e) =>
-                          handleInputChange("cvv", e.target.value, "credit")
-                        }
-                        required
-                      />
-                    </FormGroup>
+                <div className="d-flex">
+                  <div className="d-flex flex-column wid-20">
                     <Button
-                      className="btns-checkout"
-                      onClick={handleConfirmPayment}
-                      disabled={!isFormValid}
+                      onClick={() => handleOptionChange("creditCard")}
+                      className="mb-2 payment-method"
                     >
-                      Confirmar Pagamento
+                      Cartão de Crédito
                     </Button>
-                  </Form>
-                )}
-
-                {selectedOption === "debitCard" && (
-                  <Form>
-                    <h4>Pagamento com Cartão de Débito</h4>
-                    <FormGroup>
-                      <Label for="debitCardNumber">Número do Cartão:</Label>
-                      <Input
-                        type="text"
-                        id="debitCardNumber"
-                        value={debitCard.number}
-                        onChange={(e) =>
-                          handleInputChange("number", e.target.value, "debit")
-                        }
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="debitCardName">Nome no Cartão:</Label>
-                      <Input
-                        type="text"
-                        id="debitCardName"
-                        value={debitCard.name}
-                        onChange={(e) =>
-                          handleInputChange("name", e.target.value, "debit")
-                        }
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="debitCardExpiry">Validade:</Label>
-                      <Input
-                        type="text"
-                        id="debitCardExpiry"
-                        value={debitCard.expiry}
-                        onChange={(e) =>
-                          handleInputChange("expiry", e.target.value, "debit")
-                        }
-                        required
-                        placeholder="MM/AA"
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="debitCardCVV">CVV:</Label>
-                      <Input
-                        type="text"
-                        id="debitCardCVV"
-                        value={debitCard.cvv}
-                        onChange={(e) =>
-                          handleInputChange("cvv", e.target.value, "debit")
-                        }
-                        required
-                      />
-                    </FormGroup>
                     <Button
-                      className="btns-checkout"
-                      onClick={handleConfirmPayment}
-                      disabled={!isFormValid}
+                      onClick={() => handleOptionChange("debitCard")}
+                      className="mb-2 payment-method"
                     >
-                      Confirmar Pagamento
+                      Cartão de Débito
                     </Button>
-                  </Form>
-                )}
-
-                {selectedOption === "pix" && (
-                  <div>
-                    <h4>Pagamento com PIX</h4>
-                    <p>
-                      Use o código abaixo para realizar o pagamento via PIX:
-                    </p>
-                    <p>
-                      <strong>Código PIX: 1234-5678-90</strong>
-                    </p>
-                    <Button className="btns-checkout" onClick={handlePix}>
-                      Confirmar Pagamento
+                    <Button
+                      onClick={() => handleOptionChange("pix")}
+                      className="mb-2 payment-method"
+                    >
+                      PIX
                     </Button>
                   </div>
-                )}
-              </div>
 
-              <div className="wid-30 ms-3">
-                <div className="border">
-                  <ItemsCheckout />
+                  <div className="wid-50 ms-3">
+                    {selectedOption === "creditCard" && (
+                      <Form>
+                        <h4>Pagamento com Cartão de Crédito</h4>
+                        <FormGroup>
+                          <Label for="creditCardNumber">
+                            Número do Cartão:
+                          </Label>
+                          <Input
+                            type="text"
+                            id="creditCardNumber"
+                            value={creditCard.number}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "number",
+                                e.target.value,
+                                "credit"
+                              )
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="creditCardName">Nome no Cartão:</Label>
+                          <Input
+                            type="text"
+                            id="creditCardName"
+                            value={creditCard.name}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "name",
+                                e.target.value,
+                                "credit"
+                              )
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="creditCardExpiry">Validade:</Label>
+                          <Input
+                            type="text"
+                            id="creditCardExpiry"
+                            value={creditCard.expiry}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "expiry",
+                                e.target.value,
+                                "credit"
+                              )
+                            }
+                            required
+                            placeholder="MM/AA"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="creditCardCVV">CVV:</Label>
+                          <Input
+                            type="text"
+                            id="creditCardCVV"
+                            value={creditCard.cvv}
+                            onChange={(e) =>
+                              handleInputChange("cvv", e.target.value, "credit")
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <Button
+                          className="btns-checkout"
+                          onClick={handleConfirmPayment}
+                          disabled={!isFormValid}
+                        >
+                          Confirmar Pagamento
+                        </Button>
+                      </Form>
+                    )}
+
+                    {selectedOption === "debitCard" && (
+                      <Form>
+                        <h4>Pagamento com Cartão de Débito</h4>
+                        <FormGroup>
+                          <Label for="debitCardNumber">Número do Cartão:</Label>
+                          <Input
+                            type="text"
+                            id="debitCardNumber"
+                            value={debitCard.number}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "number",
+                                e.target.value,
+                                "debit"
+                              )
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="debitCardName">Nome no Cartão:</Label>
+                          <Input
+                            type="text"
+                            id="debitCardName"
+                            value={debitCard.name}
+                            onChange={(e) =>
+                              handleInputChange("name", e.target.value, "debit")
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="debitCardExpiry">Validade:</Label>
+                          <Input
+                            type="text"
+                            id="debitCardExpiry"
+                            value={debitCard.expiry}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "expiry",
+                                e.target.value,
+                                "debit"
+                              )
+                            }
+                            required
+                            placeholder="MM/AA"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="debitCardCVV">CVV:</Label>
+                          <Input
+                            type="text"
+                            id="debitCardCVV"
+                            value={debitCard.cvv}
+                            onChange={(e) =>
+                              handleInputChange("cvv", e.target.value, "debit")
+                            }
+                            required
+                          />
+                        </FormGroup>
+                        <Button
+                          className="btns-checkout"
+                          onClick={handleConfirmPayment}
+                          disabled={!isFormValid}
+                        >
+                          Confirmar Pagamento
+                        </Button>
+                      </Form>
+                    )}
+
+                    {selectedOption === "pix" && (
+                      <div>
+                        <h4>Pagamento com PIX</h4>
+                        <p>
+                          Use o código abaixo para realizar o pagamento via PIX:
+                        </p>
+                        <p>
+                          <strong>Código PIX: 1234-5678-90</strong>
+                        </p>
+                        <Button className="btns-checkout" onClick={handlePix}>
+                          Confirmar Pagamento
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="wid-30 ms-3">
+                    <div className="border">
+                      <ItemsCheckout />
+                    </div>
+                  </div>
                 </div>
+              </>
+            ) : (
+              <div className="d-flex align-items-center justify-content-center mt-4 flex-column">
+                <h1>Seu carrinho está vazio!</h1>
+                <Link href="/products" passHref legacyBehavior>
+                  <a className="nav-link me-2">
+                    <Button color="secondary">Continuar comprando!</Button>
+                  </a>
+                </Link>
               </div>
-            </div>
-          </>
+            )}
+          </Container>
         ) : (
           <div className="d-flex align-items-center justify-content-center mt-4 flex-column">
-            <h1>Seu carrinho está vazio!</h1>
-            <Link href="/products" passHref legacyBehavior>
-              <a className="nav-link me-2">
-                <Button color="secondary">Continuar comprando!</Button>
-              </a>
-            </Link>
+            <div>
+              <h3>Faça login para continuar comprando</h3>
+            </div>
+            <Button
+              className="nav-link me-2 color-m btn-login-cart"
+              onClick={() => signIn("google")}
+            >
+              Fazer Login
+            </Button>
           </div>
         )}
-      </Container>
+      </>
 
       <Footer />
 

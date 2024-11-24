@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Footer from "@/components/Footer";
 import { useCart } from "@/hooks/useCart";
 import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
 
 interface PersonalInfo {
   name: string;
@@ -17,6 +18,7 @@ interface PersonalInfo {
 
 const ProfileData: React.FC = () => {
   const { cart } = useCart();
+  const { data: session } = useSession();
 
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
     name: "",
@@ -63,86 +65,104 @@ const ProfileData: React.FC = () => {
 
       <HeaderCheckout />
 
-      {cart.length > 0 ? (
-        <Container>
-          <h2>Dados Pessoais</h2>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label for="name">Nome:</Label>
-              <Input
-                type="text"
-                name="name"
-                id="name"
-                value={personalInfo.name}
-                onChange={handleChange}
-                required
-              />
-            </FormGroup>
+      <>
+        {session ? (
+          <main>
+            {cart.length > 0 ? (
+              <Container>
+                <h2>Dados Pessoais</h2>
+                <Form onSubmit={handleSubmit}>
+                  <FormGroup>
+                    <Label for="name">Nome:</Label>
+                    <Input
+                      type="text"
+                      name="name"
+                      id="name"
+                      value={personalInfo.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
 
-            <FormGroup>
-              <Label for="email">Email:</Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                value={personalInfo.email}
-                onChange={handleChange}
-                required
-              />
-            </FormGroup>
+                  <FormGroup>
+                    <Label for="email">Email:</Label>
+                    <Input
+                      type="email"
+                      name="email"
+                      id="email"
+                      value={personalInfo.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
 
-            <FormGroup>
-              <Label for="phone">Telefone:</Label>
-              <Input
-                type="tel"
-                name="phone"
-                id="phone"
-                value={personalInfo.phone}
-                onChange={handleChange}
-                required
-              />
-            </FormGroup>
+                  <FormGroup>
+                    <Label for="phone">Telefone:</Label>
+                    <Input
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      value={personalInfo.phone}
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
 
-            <FormGroup>
-              <Label for="birthDate">Data de Nascimento:</Label>
-              <Input
-                type="date"
-                name="birthDate"
-                id="birthDate"
-                value={personalInfo.birthDate}
-                onChange={handleChange}
-                required
-              />
-            </FormGroup>
+                  <FormGroup>
+                    <Label for="birthDate">Data de Nascimento:</Label>
+                    <Input
+                      type="date"
+                      name="birthDate"
+                      id="birthDate"
+                      value={personalInfo.birthDate}
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
 
-            <FormGroup>
-              <Label for="cpf">CPF:</Label>
-              <Input
-                type="text"
-                name="cpf"
-                id="cpf"
-                value={personalInfo.cpf}
-                onChange={handleChange}
-                required
-                placeholder="XXX.XXX.XXX-XX"
-              />
-            </FormGroup>
+                  <FormGroup>
+                    <Label for="cpf">CPF:</Label>
+                    <Input
+                      type="text"
+                      name="cpf"
+                      id="cpf"
+                      value={personalInfo.cpf}
+                      onChange={handleChange}
+                      required
+                      placeholder="XXX.XXX.XXX-XX"
+                    />
+                  </FormGroup>
 
-            <Button type="submit" className="btns-checkout">
-              Enviar
+                  <Button type="submit" className="btns-checkout">
+                    Enviar
+                  </Button>
+                </Form>
+              </Container>
+            ) : (
+              <div className="d-flex align-items-center justify-content-center mt-4 flex-column">
+                <h1>Seu carrinho está vazio!</h1>
+                <Link href="/products" passHref legacyBehavior>
+                  <a className="nav-link me-2">
+                    <Button color="secondary">Continuar comprando!</Button>
+                  </a>
+                </Link>
+              </div>
+            )}
+          </main>
+        ) : (
+          <div className="d-flex align-items-center justify-content-center mt-4 flex-column">
+            <div>
+              <h3>Faça login para continuar comprando</h3>
+            </div>
+            <Button
+              className="nav-link me-2 color-m btn-login-cart"
+              onClick={() => signIn("google")}
+            >
+              Fazer Login
             </Button>
-          </Form>
-        </Container>
-      ) : (
-        <div className="d-flex align-items-center justify-content-center mt-4 flex-column">
-          <h1>Seu carrinho está vazio!</h1>
-          <Link href="/products" passHref legacyBehavior>
-            <a className="nav-link me-2">
-              <Button color="secondary">Continuar comprando!</Button>
-            </a>
-          </Link>
-        </div>
-      )}
+          </div>
+        )}
+      </>
 
       <Footer />
     </>
